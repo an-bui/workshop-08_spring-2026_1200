@@ -144,8 +144,6 @@ slice_sample(
 ```
 
 
-
-
 # 3. Visualizing data
 
 ## What is the relationship between SLA and plant mass?  
@@ -156,9 +154,22 @@ Label the axes with units where appropriate.
 
 Add a title describing the relationship (e.g. as SLA increases, total mass ______). 
 
+```{r}
+#| label: scatterplot
 
-
-
+# base layer: ggplot
+ggplot(data = drought_exp_clean,
+       # x-axis: specific leaf area
+       # y-axis: total plant mass
+       mapping = aes(x = sla,
+                     y = total_g)) +
+  # scatterplot
+  geom_point() +
+  # relabelling axes, adding title
+  labs(title = "As SLA increases, total plant mass increases",
+       x = "Specific leaf area (cm\U00B2 / g)",
+       y = "Total plant mass (g)")
+```
 
 ## What are the differences in total mass between water treatments?
 
@@ -168,11 +179,32 @@ Label the axes with units where appropriate.
 
 Add a title describing the differences in (mean or median) plant mass between water treatments.
 
+```{r}
+#| label: jitter-treatment
 
-
-
-
-
+# base layer: ggplot
+ggplot(data = drought_exp_clean,
+       # x-axis: treatment
+       # y-axis: total plant mass
+       # color geometries by water treatment
+       mapping = aes(x = water_treatment,
+                     y = total_g,
+                     color = water_treatment)) +
+  # representing individuals in each treatment
+  geom_jitter(height = 0,
+              width = 0.1) +
+  # using custom colors
+  scale_color_manual(values = c(
+    "Drought stressed" = ds_col,
+    "Well watered" = ww_col
+  )) +
+  # relabelling axes, adding title
+  labs(title = "Well watered individuals tend to have higher mass than drought stressed",
+       x = "Treatment",
+       y = "Total plant mass (g)") +
+  # taking out legend
+  theme(legend.position = "none")
+```
 
 ## What are the differences in total mass between species?
 
@@ -184,12 +216,41 @@ Add a title describing the differences in (mean or median) plant mass between sp
 
 Bonus: order the x-axis by decreasing mean plant mass.
 
+```{r}
+#| label: jitter-species
 
-
-
-
-
-
+# base layer: ggplot
+ggplot(data = drought_exp_clean,
+       # x-axis: species
+       # y-axis: plant mass
+       # coloring geometries by species
+       mapping = aes(x = species_name,
+                     y = total_g,
+                     color = species_name)) +
+  # jitter to represent individuals in each species
+  geom_jitter(height = 0,
+              width = 0.1) +
+  # wrapping x-axis text
+  scale_x_discrete(labels = label_wrap(10)) +
+  # relabelling axes, adding title
+  labs(title = "Species differ in plant mass",
+       x = "Species",
+       y = "Total plant mass (g)") +
+  # using custom colors
+  scale_color_manual(
+    values = c(
+      "Lotus scoparius" = lotsco_col,
+      "Penstemon centranthifolius" = pencen_col,
+      "Salvia leucophylla" = salleu_col,
+      "Encelia californica" = enccal_col,
+      "Stipa pulchra" = stipul_col,
+      "Eschscholzia californica" = esccal_col,
+      "Grindelia camporum" = gricam_col
+    )
+  ) +
+  # taking out legend
+  theme(legend.position = "none")
+```
 
 # 4. Fitting models
 
