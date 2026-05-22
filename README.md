@@ -24,5 +24,5 @@ Valliere J. M., J. Zhang, M. R. Sharifi, and P. W. Rundel. 2019. "Can we conditi
 
 ## Rendered output
 
-Insert a link to the rendered output here when you're ready.
+The link to the rendered output from 12 PM is [here](https://github.com/an-bui/workshop-08_spring-2026_1200/blob/main/code/workshop-code.pdf).
 
